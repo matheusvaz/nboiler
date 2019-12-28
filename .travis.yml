@@ -1,0 +1,11 @@
+sudo: false
+language: node_js
+node_js: 
+  - "stable"
+install: yarn
+before_script:
+  - mv .env.sample .env
+script: yarn test && yarn test:e2e
+after_success: yarn test:coveralls
+notifications:
+  email: false
