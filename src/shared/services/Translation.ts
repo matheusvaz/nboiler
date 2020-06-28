@@ -10,9 +10,7 @@ export class Translation {
     public t(key: string, ...data: string[]): string {
         const message = this.dictionary()[key];
 
-        return message.includes('{}')
-            ? util.format(message.replace('{}', '%s'), data.join(' '))
-            : message;
+        return message.includes('{}') ? util.format(message.replace('{}', '%s'), data.join(' ')) : message;
     }
 
     private dictionary(): string[] {

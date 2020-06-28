@@ -26,10 +26,7 @@ import moment = require('moment');
                 new winston.transports.Console({
                     level: 'debug',
                     handleExceptions: true,
-                    format: winston.format.combine(
-                        winston.format.timestamp(),
-                        utilities.format.nestLike(),
-                    ),
+                    format: winston.format.combine(winston.format.timestamp(), utilities.format.nestLike()),
                 }),
             ],
         }),

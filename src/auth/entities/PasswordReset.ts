@@ -16,15 +16,7 @@
 
 import { User } from '@src/auth/entities/User';
 import { uuidv4 } from '@src/shared/helpers/uuidv4';
-import {
-    BaseEntity,
-    BeforeInsert,
-    Column,
-    Entity,
-    JoinColumn,
-    OneToOne,
-    PrimaryColumn,
-} from 'typeorm';
+import { BaseEntity, BeforeInsert, Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 
 @Entity('password_reset')
 export class PasswordReset extends BaseEntity {

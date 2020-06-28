@@ -1,9 +1,4 @@
-import {
-    CanActivate,
-    ExecutionContext,
-    Injectable,
-    UnauthorizedException,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { TokenInfo } from '@src/shared/models/TokenInfo';
 import { TokenType } from '@src/shared/models/TokenType';
 import { CacheAdapter } from '@src/shared/services/CacheAdapter';

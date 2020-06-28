@@ -5,8 +5,7 @@ export class Repository {
     public static provide(repository: any): FactoryProvider {
         return {
             provide: repository,
-            useFactory: (connection: Connection): typeof repository =>
-                connection.getCustomRepository(repository),
+            useFactory: (connection: Connection): typeof repository => connection.getCustomRepository(repository),
             inject: [Connection],
         };
     }

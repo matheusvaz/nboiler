@@ -16,15 +16,7 @@
 
 import { uuidv4 } from '@src/shared/helpers/uuidv4';
 import { Role } from '@src/auth/entities/Role';
-import {
-    BaseEntity,
-    BeforeInsert,
-    Column,
-    Entity,
-    JoinTable,
-    ManyToMany,
-    PrimaryColumn,
-} from 'typeorm';
+import { BaseEntity, BeforeInsert, Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
 
 @Entity('user')
 export class User extends BaseEntity {

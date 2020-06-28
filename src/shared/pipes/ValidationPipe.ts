@@ -1,9 +1,4 @@
-import {
-    HttpException,
-    HttpStatus,
-    Injectable,
-    PipeTransform,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, PipeTransform } from '@nestjs/common';
 import { Translation } from '@src/shared/services/Translation';
 import Joi from 'joi';
 
@@ -25,7 +20,7 @@ export abstract class ValidationPipe implements PipeTransform<any> {
     }
 
     public async transform(value: any): Promise<void> {
-        const result = Joi.validate(value, await this.buildSchema(this.i18n), {
+        const result = Joi.validate(value, this.buildSchema(this.i18n), {
             abortEarly: false,
             allowUnknown: true,
             language: this.language(),

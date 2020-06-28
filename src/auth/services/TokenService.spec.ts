@@ -24,12 +24,7 @@ describe('TokenService', () => {
 
     beforeAll(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [
-                TokenService,
-                UserRepository,
-                CacheAdapter,
-                TokenFactory,
-            ],
+            providers: [TokenService, UserRepository, CacheAdapter, TokenFactory],
         }).compile();
 
         tokenService = module.get<TokenService>(TokenService);
@@ -51,9 +46,7 @@ describe('TokenService', () => {
             command.email = faker.internet.email();
             command.password = faker.internet.password(6);
 
-            jest.spyOn(userRepository, 'findByEmail').mockImplementation(() =>
-                Promise.resolve(null),
-            );
+            jest.spyOn(userRepository, 'findByEmail').mockImplementation(() => Promise.resolve(null));
 
             // Act
             const findByEmail = async (): Promise<void> => {
@@ -70,13 +63,10 @@ describe('TokenService', () => {
             command.email = faker.internet.email();
             command.password = faker.internet.password(6);
 
-            jest.spyOn(userRepository, 'findByEmail').mockImplementation(
-                async () =>
-                    Promise.resolve({
-                        password: await Crypto.passwordHash(
-                            faker.internet.password(8),
-                        ),
-                    } as User),
+            jest.spyOn(userRepository, 'findByEmail').mockImplementation(async () =>
+                Promise.resolve({
+                    password: await Crypto.passwordHash(faker.internet.password(8)),
+                } as User),
             );
 
             // Act
@@ -97,11 +87,10 @@ describe('TokenService', () => {
             const passwordHash = await Crypto.passwordHash(command.password);
             const token = await Crypto.token();
 
-            jest.spyOn(userRepository, 'findByEmail').mockImplementation(
-                async () =>
-                    Promise.resolve({
-                        password: await Crypto.passwordHash(command.password),
-                    } as User),
+            jest.spyOn(userRepository, 'findByEmail').mockImplementation(async () =>
+                Promise.resolve({
+                    password: await Crypto.passwordHash(command.password),
+                } as User),
             );
 
             jest.spyOn(tokenFactory, 'create').mockImplementation(() =>
@@ -133,13 +122,9 @@ describe('TokenService', () => {
             // Arrange
             const accessToken = await Crypto.token();
 
-            const spyCacheGet = jest
-                .spyOn(cache, 'get')
-                .mockImplementation(() => Promise.resolve({} as TokenInfo));
+            const spyCacheGet = jest.spyOn(cache, 'get').mockImplementation(() => Promise.resolve({} as TokenInfo));
 
-            const spyCacheRemove = jest
-                .spyOn(cache, 'remove')
-                .mockImplementation(() => Promise.resolve(null));
+            const spyCacheRemove = jest.spyOn(cache, 'remove').mockImplementation(() => Promise.resolve(null));
 
             // Act
             await tokenService.destroy(accessToken);
@@ -156,9 +141,7 @@ describe('TokenService', () => {
             const command = new RefreshTokenCommand();
             command.refreshToken = await Crypto.token();
 
-            jest.spyOn(cache, 'get').mockImplementation(() =>
-                Promise.resolve(null),
-            );
+            jest.spyOn(cache, 'get').mockImplementation(() => Promise.resolve(null));
 
             // Act
             const refresh = async (): Promise<void> => {
@@ -174,9 +157,7 @@ describe('TokenService', () => {
             const command = new RefreshTokenCommand();
             command.refreshToken = await Crypto.token();
 
-            jest.spyOn(cache, 'get').mockImplementation(() =>
-                Promise.resolve({ type: TokenType.Access } as TokenInfo),
-            );
+            jest.spyOn(cache, 'get').mockImplementation(() => Promise.resolve({ type: TokenType.Access } as TokenInfo));
 
             // Act
             const refresh = async (): Promise<void> => {
@@ -199,9 +180,7 @@ describe('TokenService', () => {
                 } as TokenInfo),
             );
 
-            const spy = jest
-                .spyOn(cache, 'remove')
-                .mockImplementation(() => Promise.resolve(null));
+            const spy = jest.spyOn(cache, 'remove').mockImplementation(() => Promise.resolve(null));
 
             // Act
             await tokenService.refresh(command);

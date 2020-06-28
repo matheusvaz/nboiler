@@ -37,11 +37,7 @@ export class UserService {
     }
 
     public async create(request: CreateUserCommand): Promise<void> {
-        const user = await this.userFactory.create(
-            request.name,
-            request.email,
-            request.password,
-        );
+        const user = await this.userFactory.create(request.name, request.email, request.password);
 
         if (await this.userRepository.exists(user)) {
             return;
@@ -52,18 +48,14 @@ export class UserService {
         this.logger.log(`User ${user.id} was created.`);
     }
 
-    public async issuePasswordRecoverToken(
-        command: IssuePasswordRecoverTokenCommand,
-    ): Promise<void> {
+    public async issuePasswordRecoverToken(command: IssuePasswordRecoverTokenCommand): Promise<void> {
         const user = await this.userRepository.findByEmail(command.email);
 
         if (!user) {
             return;
         }
 
-        let passwordReset = await this.passwordResetRepository.findByUserId(
-            user.id,
-        );
+        let passwordReset = await this.passwordResetRepository.findByUserId(user.id);
 
         if (passwordReset) {
             // TODO: Send token via transport
@@ -83,22 +75,14 @@ export class UserService {
         this.logger.log(`Password recovery for ${user.id} requested.`);
     }
 
-    public async checkPasswordRecoveryToken(
-        command: CheckPasswordRecoveryTokenCommand,
-    ): Promise<void> {
-        if (
-            !(await this.passwordResetRepository.findByToken(
-                await Crypto.genericHash(command.token),
-            ))
-        ) {
+    public async checkPasswordRecoveryToken(command: CheckPasswordRecoveryTokenCommand): Promise<void> {
+        if (!(await this.passwordResetRepository.findByToken(await Crypto.genericHash(command.token)))) {
             throw new NotFoundException();
         }
     }
 
     public async changePassword(command: ChangePasswordCommand): Promise<void> {
-        const passwordReset = await this.passwordResetRepository.findByToken(
-            await Crypto.genericHash(command.token),
-        );
+        const passwordReset = await this.passwordResetRepository.findByToken(await Crypto.genericHash(command.token));
 
         if (!passwordReset) {
             throw new NotFoundException();

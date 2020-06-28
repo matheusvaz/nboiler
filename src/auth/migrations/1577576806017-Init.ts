@@ -35,36 +35,18 @@ export class Init1577576806017 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.query(
-            'ALTER TABLE `user_role` DROP FOREIGN KEY `FK_32a6fc2fcb019d8e3a8ace0f55f`',
-            undefined,
-        );
-        await queryRunner.query(
-            'ALTER TABLE `user_role` DROP FOREIGN KEY `FK_d0e5815877f7395a198a4cb0a46`',
-            undefined,
-        );
+        await queryRunner.query('ALTER TABLE `user_role` DROP FOREIGN KEY `FK_32a6fc2fcb019d8e3a8ace0f55f`', undefined);
+        await queryRunner.query('ALTER TABLE `user_role` DROP FOREIGN KEY `FK_d0e5815877f7395a198a4cb0a46`', undefined);
         await queryRunner.query(
             'ALTER TABLE `password_reset` DROP FOREIGN KEY `FK_ad88301fdc79593dd222268a8b6`',
             undefined,
         );
-        await queryRunner.query(
-            'DROP INDEX `IDX_32a6fc2fcb019d8e3a8ace0f55` ON `user_role`',
-            undefined,
-        );
-        await queryRunner.query(
-            'DROP INDEX `IDX_d0e5815877f7395a198a4cb0a4` ON `user_role`',
-            undefined,
-        );
+        await queryRunner.query('DROP INDEX `IDX_32a6fc2fcb019d8e3a8ace0f55` ON `user_role`', undefined);
+        await queryRunner.query('DROP INDEX `IDX_d0e5815877f7395a198a4cb0a4` ON `user_role`', undefined);
         await queryRunner.query('DROP TABLE `user_role`', undefined);
-        await queryRunner.query(
-            'DROP INDEX `REL_ad88301fdc79593dd222268a8b` ON `password_reset`',
-            undefined,
-        );
+        await queryRunner.query('DROP INDEX `REL_ad88301fdc79593dd222268a8b` ON `password_reset`', undefined);
         await queryRunner.query('DROP TABLE `password_reset`', undefined);
-        await queryRunner.query(
-            'DROP INDEX `IDX_e12875dfb3b1d92d7d7c5377e2` ON `user`',
-            undefined,
-        );
+        await queryRunner.query('DROP INDEX `IDX_e12875dfb3b1d92d7d7c5377e2` ON `user`', undefined);
         await queryRunner.query('DROP TABLE `user`', undefined);
         await queryRunner.query('DROP TABLE `role`', undefined);
     }

@@ -17,11 +17,7 @@ describe('UserFactory', () => {
 
             // Act
             const factory = new UserFactory();
-            const result = await factory.create(
-                command.name,
-                command.email,
-                command.password,
-            );
+            const result = await factory.create(command.name, command.email, command.password);
 
             // Assert
             expect(result).toBeDefined();

@@ -41,27 +41,21 @@ export class UserController {
     @Get('/password/recover')
     @UsePipes(IssuePasswordRecoverTokenCommand.Schema)
     @HttpCode(HttpStatus.NO_CONTENT)
-    public async recoverPassword(
-        @Query() command: IssuePasswordRecoverTokenCommand,
-    ): Promise<void> {
+    public async recoverPassword(@Query() command: IssuePasswordRecoverTokenCommand): Promise<void> {
         await this.userService.issuePasswordRecoverToken(command);
     }
 
     @Patch('/password/recover')
     @UsePipes(ChangePasswordCommand.Schema)
     @HttpCode(HttpStatus.NO_CONTENT)
-    public async changePassword(
-        @Body() command: ChangePasswordCommand,
-    ): Promise<void> {
+    public async changePassword(@Body() command: ChangePasswordCommand): Promise<void> {
         await this.userService.changePassword(command);
     }
 
     @Get('/password/recover/:token')
     @UsePipes(CheckPasswordRecoveryTokenCommand.Schema)
     @HttpCode(HttpStatus.NO_CONTENT)
-    public async checkPasswordRecoveryToken(
-        @Param() command: CheckPasswordRecoveryTokenCommand,
-    ): Promise<void> {
+    public async checkPasswordRecoveryToken(@Param() command: CheckPasswordRecoveryTokenCommand): Promise<void> {
         await this.userService.checkPasswordRecoveryToken(command);
     }
 }

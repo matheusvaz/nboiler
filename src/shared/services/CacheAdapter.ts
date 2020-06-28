@@ -29,11 +29,7 @@ export class CacheAdapter {
         return await getAsync(key);
     }
 
-    public async set(
-        key: string,
-        value: string | object,
-        expiry?: number,
-    ): Promise<boolean> {
+    public async set(key: string, value: string | object, expiry?: number): Promise<boolean> {
         if (typeof value === 'object') {
             value = JSON.stringify(value);
         }

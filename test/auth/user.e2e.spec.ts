@@ -26,9 +26,7 @@ describe('UserController (e2e)', () => {
 
         tokenService = moduleFixture.get<TokenService>(TokenService);
         userService = moduleFixture.get<UserService>(UserService);
-        passwordResetRepository = moduleFixture.get<PasswordResetRepository>(
-            PasswordResetRepository,
-        );
+        passwordResetRepository = moduleFixture.get<PasswordResetRepository>(PasswordResetRepository);
     });
 
     it('should be defined', () => {
@@ -186,7 +184,7 @@ describe('UserController (e2e)', () => {
         });
     });
 
-    describe('/user/password/recover (PATCH)', () => {});
+    describe('/user/password/recover (PATCH)', () => { });
 
-    describe('/password/recover/:token (GET)', () => {});
+    describe('/password/recover/:token (GET)', () => { });
 });

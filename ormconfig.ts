@@ -28,7 +28,4 @@ const testConnection = {
     namingStrategy: new SnakeNamingStrategy(),
 };
 
-module.exports =
-    process.env.APP_ENV === 'testing'
-        ? { ...testConnection }
-        : { ...defaultConnection };
+module.exports = process.env.APP_ENV === 'testing' ? { ...testConnection } : { ...defaultConnection };

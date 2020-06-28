@@ -6,12 +6,7 @@ import { BusinessExceptionFilter } from '@src/shared/exceptions/BusinessExceptio
 import compression from 'compression';
 import * as devcert from 'devcert';
 import fs from 'fs';
-import {
-    hidePoweredBy,
-    hsts,
-    noCache,
-    permittedCrossDomainPolicies,
-} from 'helmet';
+import { hidePoweredBy, hsts, noCache, permittedCrossDomainPolicies } from 'helmet';
 import morgan from 'morgan';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 

@@ -19,12 +19,7 @@ describe('TokenController', () => {
     beforeAll(async () => {
         const module: TestingModule = await Test.createTestingModule({
             controllers: [TokenController],
-            providers: [
-                TokenService,
-                CacheAdapter,
-                AuthenticationRequired,
-                Translation,
-            ],
+            providers: [TokenService, CacheAdapter, AuthenticationRequired, Translation],
         }).compile();
 
         controller = module.get<TokenController>(TokenController);

@@ -17,34 +17,18 @@
 import sodium from 'libsodium-wrappers';
 
 export class Crypto {
-    public static async genericHash(
-        message: string,
-        key?: string,
-    ): Promise<string> {
+    public static async genericHash(message: string, key?: string): Promise<string> {
         await sodium.ready;
 
-        return sodium.to_base64(
-            sodium.crypto_generichash(
-                sodium.crypto_generichash_BYTES_MAX,
-                message,
-                key,
-            ),
-        );
+        return sodium.to_base64(sodium.crypto_generichash(sodium.crypto_generichash_BYTES_MAX, message, key));
     }
 
     public static async passwordHash(password: string): Promise<string> {
         await sodium.ready;
-        return sodium.crypto_pwhash_str(
-            password,
-            sodium.crypto_pwhash_OPSLIMIT_MODERATE,
-            65536 << 10,
-        );
+        return sodium.crypto_pwhash_str(password, sodium.crypto_pwhash_OPSLIMIT_MODERATE, 65536 << 10);
     }
 
-    public static async passwordHashVerify(
-        hashedPassword: string,
-        password: string,
-    ): Promise<boolean> {
+    public static async passwordHashVerify(hashedPassword: string, password: string): Promise<boolean> {
         await sodium.ready;
         return sodium.crypto_pwhash_str_verify(hashedPassword, password);
     }

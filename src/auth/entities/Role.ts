@@ -15,13 +15,7 @@
  */
 
 import { uuidv4 } from '@src/shared/helpers/uuidv4';
-import {
-    BaseEntity,
-    BeforeInsert,
-    Column,
-    Entity,
-    PrimaryColumn,
-} from 'typeorm';
+import { BaseEntity, BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('role')
 export class Role extends BaseEntity {

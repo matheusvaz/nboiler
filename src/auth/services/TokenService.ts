@@ -23,10 +23,7 @@ export class TokenService {
     public async issue(command: IssueTokenCommand): Promise<Token> {
         const user = await this.userRepository.findByEmail(command.email);
 
-        if (
-            !user ||
-            !(await Crypto.passwordHashVerify(user.password, command.password))
-        ) {
+        if (!user || !(await Crypto.passwordHashVerify(user.password, command.password))) {
             throw new UnauthorizedException();
         }
 
@@ -68,17 +65,9 @@ export class TokenService {
     private async generateToken(user: User): Promise<Token> {
         const pair = await this.tokenFactory.create(user);
 
-        await this.cache.set(
-            pair.accessToken.hash,
-            pair.accessToken.info,
-            pair.accessToken.info.duration,
-        );
+        await this.cache.set(pair.accessToken.hash, pair.accessToken.info, pair.accessToken.info.duration);
 
-        await this.cache.set(
-            pair.refreshToken.hash,
-            pair.refreshToken.info,
-            pair.refreshToken.info.duration,
-        );
+        await this.cache.set(pair.refreshToken.hash, pair.refreshToken.info, pair.refreshToken.info.duration);
 
         return {
             accessToken: {

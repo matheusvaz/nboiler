@@ -17,9 +17,7 @@
 import { EntityManager, getManager } from 'typeorm';
 
 export class Transaction {
-    public async start<T>(
-        callback: (entityManager: EntityManager) => Promise<T>,
-    ): Promise<T> {
+    public async start<T>(callback: (entityManager: EntityManager) => Promise<T>): Promise<T> {
         return await getManager().transaction<T>(callback);
     }
 }

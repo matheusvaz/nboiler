@@ -27,21 +27,13 @@ describe('UserService', () => {
 
     beforeAll(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [
-                UserService,
-                UserRepository,
-                UserFactory,
-                PasswordResetRepository,
-                Transaction,
-            ],
+            providers: [UserService, UserRepository, UserFactory, PasswordResetRepository, Transaction],
         }).compile();
 
         userService = module.get<UserService>(UserService);
         userRepository = module.get<UserRepository>(UserRepository);
         userFactory = module.get<UserFactory>(UserFactory);
-        passwordResetRepository = module.get<PasswordResetRepository>(
-            PasswordResetRepository,
-        );
+        passwordResetRepository = module.get<PasswordResetRepository>(PasswordResetRepository);
         transaction = module.get<Transaction>(Transaction);
     });
 
@@ -57,9 +49,7 @@ describe('UserService', () => {
         it('should throw NotFoundException if no user is found', async () => {
             // Arrange
             const id = faker.random.alphaNumeric();
-            jest.spyOn(userRepository, 'findById').mockImplementation(() =>
-                Promise.resolve(null),
-            );
+            jest.spyOn(userRepository, 'findById').mockImplementation(() => Promise.resolve(null));
 
             // Act
             const getProfile = async (): Promise<void> => {
@@ -78,9 +68,7 @@ describe('UserService', () => {
                 name: faker.name.firstName(),
             };
 
-            jest.spyOn(userRepository, 'findById').mockImplementation(() =>
-                Promise.resolve(payload as User),
-            );
+            jest.spyOn(userRepository, 'findById').mockImplementation(() => Promise.resolve(payload as User));
 
             // Act
             const profile = await userService.getProfile(payload.id);
@@ -98,17 +86,11 @@ describe('UserService', () => {
             command.name = faker.name.firstName();
             command.password = faker.internet.password(6);
 
-            jest.spyOn(userFactory, 'create').mockImplementation(() =>
-                Promise.resolve(command as User),
-            );
+            jest.spyOn(userFactory, 'create').mockImplementation(() => Promise.resolve(command as User));
 
-            jest.spyOn(userRepository, 'exists').mockImplementation(() =>
-                Promise.resolve(true),
-            );
+            jest.spyOn(userRepository, 'exists').mockImplementation(() => Promise.resolve(true));
 
-            const spy = jest
-                .spyOn(userRepository, 'save')
-                .mockImplementation(() => Promise.resolve(null));
+            const spy = jest.spyOn(userRepository, 'save').mockImplementation(() => Promise.resolve(null));
 
             // Act
             await userService.create(command);
@@ -124,17 +106,11 @@ describe('UserService', () => {
             command.name = faker.name.firstName();
             command.password = faker.internet.password(6);
 
-            jest.spyOn(userFactory, 'create').mockImplementation(() =>
-                Promise.resolve(command as User),
-            );
+            jest.spyOn(userFactory, 'create').mockImplementation(() => Promise.resolve(command as User));
 
-            jest.spyOn(userRepository, 'exists').mockImplementation(() =>
-                Promise.resolve(false),
-            );
+            jest.spyOn(userRepository, 'exists').mockImplementation(() => Promise.resolve(false));
 
-            const spy = jest
-                .spyOn(userRepository, 'save')
-                .mockImplementation(() => Promise.resolve(null));
+            const spy = jest.spyOn(userRepository, 'save').mockImplementation(() => Promise.resolve(null));
 
             // Act
             await userService.create(command);
@@ -150,13 +126,9 @@ describe('UserService', () => {
             const command = new IssuePasswordRecoverTokenCommand();
             command.email = faker.internet.email();
 
-            jest.spyOn(userRepository, 'findByEmail').mockImplementation(() =>
-                Promise.resolve(null),
-            );
+            jest.spyOn(userRepository, 'findByEmail').mockImplementation(() => Promise.resolve(null));
 
-            const spy = jest
-                .spyOn(passwordResetRepository, 'save')
-                .mockImplementation(() => Promise.resolve(null));
+            const spy = jest.spyOn(passwordResetRepository, 'save').mockImplementation(() => Promise.resolve(null));
 
             // Act
             await userService.issuePasswordRecoverToken(command);
@@ -170,14 +142,11 @@ describe('UserService', () => {
             const command = new IssuePasswordRecoverTokenCommand();
             command.email = faker.internet.email();
 
-            jest.spyOn(userRepository, 'findByEmail').mockImplementation(() =>
-                Promise.resolve(command as User),
-            );
+            jest.spyOn(userRepository, 'findByEmail').mockImplementation(() => Promise.resolve(command as User));
 
-            jest.spyOn(
-                passwordResetRepository,
-                'findByUserId',
-            ).mockImplementation(() => Promise.resolve({} as PasswordReset));
+            jest.spyOn(passwordResetRepository, 'findByUserId').mockImplementation(() =>
+                Promise.resolve({} as PasswordReset),
+            );
 
             const passwordResetSaveSpy = jest
                 .spyOn(passwordResetRepository, 'save')
@@ -195,14 +164,9 @@ describe('UserService', () => {
             const command = new IssuePasswordRecoverTokenCommand();
             command.email = faker.internet.email();
 
-            jest.spyOn(userRepository, 'findByEmail').mockImplementation(() =>
-                Promise.resolve(command as User),
-            );
+            jest.spyOn(userRepository, 'findByEmail').mockImplementation(() => Promise.resolve(command as User));
 
-            jest.spyOn(
-                passwordResetRepository,
-                'findByUserId',
-            ).mockImplementation(() => Promise.resolve(null));
+            jest.spyOn(passwordResetRepository, 'findByUserId').mockImplementation(() => Promise.resolve(null));
 
             const passwordResetSaveSpy = jest
                 .spyOn(passwordResetRepository, 'save')
@@ -222,10 +186,7 @@ describe('UserService', () => {
             const command = new CheckPasswordRecoveryTokenCommand();
             command.token = faker.random.alphaNumeric();
 
-            jest.spyOn(
-                passwordResetRepository,
-                'findByToken',
-            ).mockImplementation(() => Promise.resolve(null));
+            jest.spyOn(passwordResetRepository, 'findByToken').mockImplementation(() => Promise.resolve(null));
 
             // Act
             const checkPasswordRecoveryToken = async (): Promise<void> => {
@@ -233,9 +194,7 @@ describe('UserService', () => {
             };
 
             // Assert
-            await expect(checkPasswordRecoveryToken()).rejects.toThrow(
-                NotFoundException,
-            );
+            await expect(checkPasswordRecoveryToken()).rejects.toThrow(NotFoundException);
         });
 
         it('should not throw when password reset token exists', async () => {
@@ -243,10 +202,9 @@ describe('UserService', () => {
             const command = new CheckPasswordRecoveryTokenCommand();
             command.token = faker.random.alphaNumeric();
 
-            jest.spyOn(
-                passwordResetRepository,
-                'findByToken',
-            ).mockImplementation(() => Promise.resolve({} as PasswordReset));
+            jest.spyOn(passwordResetRepository, 'findByToken').mockImplementation(() =>
+                Promise.resolve({} as PasswordReset),
+            );
 
             // Act
             const checkPasswordRecoveryToken = async (): Promise<void> => {
@@ -265,10 +223,7 @@ describe('UserService', () => {
             command.token = faker.random.alphaNumeric();
             command.password = faker.internet.password();
 
-            jest.spyOn(
-                passwordResetRepository,
-                'findByToken',
-            ).mockImplementation(() => Promise.resolve(null));
+            jest.spyOn(passwordResetRepository, 'findByToken').mockImplementation(() => Promise.resolve(null));
 
             // Act
             const changePassword = async (): Promise<void> => {
@@ -287,10 +242,7 @@ describe('UserService', () => {
 
             const fakeId = faker.random.alphaNumeric();
 
-            jest.spyOn(
-                passwordResetRepository,
-                'findByToken',
-            ).mockImplementation(() =>
+            jest.spyOn(passwordResetRepository, 'findByToken').mockImplementation(() =>
                 Promise.resolve({ user: { id: fakeId } } as PasswordReset),
             );
 
@@ -298,9 +250,7 @@ describe('UserService', () => {
                 .spyOn(userRepository, 'findById')
                 .mockImplementation(() => Promise.resolve({} as User));
 
-            const spyStartTransaction = jest
-                .spyOn(transaction, 'start')
-                .mockImplementation(() => null);
+            const spyStartTransaction = jest.spyOn(transaction, 'start').mockImplementation(() => null);
 
             // Act
             await userService.changePassword(command);

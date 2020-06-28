@@ -9,12 +9,7 @@ tsConfigPaths.register({
     paths: Object.keys(paths).reduce(
         (agg, key) => ({
             ...agg,
-            [key]: paths[key].map(p =>
-                p.replace(
-                    tsConfig.compilerOptions.baseUrl,
-                    tsConfig.compilerOptions.outDir,
-                ),
-            ),
+            [key]: paths[key].map(p => p.replace(tsConfig.compilerOptions.baseUrl, tsConfig.compilerOptions.outDir)),
         }),
         {},
     ),
